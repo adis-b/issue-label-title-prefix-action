@@ -44,3 +44,16 @@ bar=🔹`;
 
   expect(correctTitle(title, '🔴', knownPrefixes)).toBe('🔴 hello world');
 });
+
+test('parse prefix mappings trims whitespace and ignores blank lines', () => {
+  const input = `bug = 🔴
+
+feature= 🔹
+`;
+  const mappings = parsePrefixMapping(input);
+  expect(mappings).toStrictEqual({ bug: '🔴', feature: '🔹' });
+});
+
+test('correctTitle returns original title when prefix is missing', () => {
+  expect(correctTitle('hello world', undefined, ['FOO'])).toBe('hello world');
+});
